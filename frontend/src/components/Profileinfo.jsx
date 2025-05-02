@@ -9,37 +9,41 @@ import { TfiThought } from "react-icons/tfi";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaXTwitter } from "react-icons/fa6";
 import { BiLogoGmail } from "react-icons/bi";
+import { formatMemberSince } from "../utils/function";
 
-function Profileinfo() {
-  function userProfile() {
-    return {
-      avatar_url:
-        "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
-      bio: "👨🏻‍💻👨🏻‍💻👨🏻‍💻",
-      email: "johndoe@gmail.com",
-      followers: 100,
-      following: 200,
-      html_url: "https://github.com/burakorkmez",
-      location: "Somewhere, Earth",
-      name: "John Doe",
-      public_gists: 100,
-      public_repos: 100,
-      twitter_username: "johndoe",
-      insta_username: "ayanm_2004",
-      fb_username: "your_facebook_id",
-      linkedin_username: "your_linkedin_id",
+function Profileinfo({ userProfile }) {
+  // function userProfile() {
+  //   return {
+  //     avatar_url:
+  //       "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
+  //     bio: "👨🏻‍💻👨🏻‍💻👨🏻‍💻",
+  //     email: "johndoe@gmail.com",
+  //     followers: 100,
+  //     following: 200,
+  //     html_url: "https://github.com/burakorkmez",
+  //     location: "Somewhere, Earth",
+  //     name: "John Doe",
+  //     public_gists: 100,
+  //     public_repos: 100,
+  //     twitter_username: "johndoe",
+  //     insta_username: "ayanm_2004",
+  //     fb_username: "your_facebook_id",
+  //     linkedin_username: "your_linkedin_id",
 
-      login: "johndoe",
-    };
-  }
+  //     login: "johndoe7667",
+  //   };
+  // }
 
-  const user = userProfile();
+  const user = userProfile;
+
+     const isValid = (username) => typeof username === 'string' &&
+          username.trim().length > 0;
+
+    const memberSince = formatMemberSince(user.created_at);
 
   return (
     <div className="lg:w-1/3 w-full flex flex-col gap-2 md:sticky md:top-10">
-      <div
-        className="bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-800 text-white rounded-lg p-4"
-      >
+      <div className="bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-800 text-white rounded-lg p-4">
         <div className="flex gap-3 items-center">
           <a href={user.html_url} target="_blank" rel="noreferrer">
             <img
@@ -65,7 +69,7 @@ function Profileinfo() {
         {user.bio && (
           <div className="flex items-center gap-2">
             <TfiThought />
-            <p className="text-sm">{user.bio.substring(0, 60)}...</p>
+            <p className="text-sm">{user.bio}</p>
           </div>
         )}
 
@@ -80,17 +84,18 @@ function Profileinfo() {
         {/* Social Links */}
         <div className="flex items-center gap-2">
           {/* Twitter */}
-          {user.twitter_username?.trim() && (
+       
+          {isValid(user.twitter_username) && (
             <a
               href={`https://twitter.com/${user.twitter_username}`}
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-2 hover:text-sky-500"
             >
-              <FaXTwitter />
+              <FaXTwitter />{" "}
             </a>
           )}
-
+         
           {/* Instagram */}
           {user.insta_username?.trim() && (
             <a
@@ -102,7 +107,6 @@ function Profileinfo() {
               <FaInstagram />
             </a>
           )}
-
           {/* Facebook */}
           {user.fb_username?.trim() && (
             <a
@@ -114,7 +118,6 @@ function Profileinfo() {
               <FaFacebook />
             </a>
           )}
-
           {/* LinkedIn */}
           {user.linkedin_username?.trim() && (
             <a
@@ -126,7 +129,6 @@ function Profileinfo() {
               <FaLinkedin />
             </a>
           )}
-
           {/* Email */}
           {user.email?.trim() && (
             <a
@@ -141,7 +143,7 @@ function Profileinfo() {
         {/* Member Since Date */}
         <div className="">
           <p className="text-gray-600 font-bold text-sm">Member since</p>
-          <p>21 Sep, 2023</p>
+          <p>{memberSince}</p>
         </div>
 
         {/* Full Name */}
@@ -160,34 +162,24 @@ function Profileinfo() {
       </div>
 
       <div className="flex flex-wrap gap-4 mx-4">
-  {/* Followers Count */}
-  <div className="flex items-center gap-2 bg-glass rounded-lg p-4 flex-1 min-w-[100px]">
-    <RiUserFollowFill className="w-5 h-5 text-blue-800" />
-    <p className="text-xs">Followers: {user.followers}</p>
-  </div>
+        {/* Followers Count */}
+        <div className="flex items-center gap-2 bg-glass rounded-lg p-4 flex-1 min-w-[100px]">
+          <RiUserFollowFill className="w-5 h-5 text-blue-800" />
+          <p className="text-xs">Followers: {user.followers}</p>
+        </div>
 
-  {/* Following Count */}
-  <div className="flex items-center gap-2 bg-glass rounded-lg p-4 flex-1 min-w-[100px]">
-    <RiUserUnfollowLine className="w-5 h-5 text-blue-800" />
-    <p className="text-xs">Following: {user.following}</p>
-  </div>
+        {/* Following Count */}
+        <div className="flex items-center gap-2 bg-glass rounded-lg p-4 flex-1 min-w-[100px]">
+          <RiUserUnfollowLine className="w-5 h-5 text-blue-800" />
+          <p className="text-xs">Following: {user.following}</p>
+        </div>
 
-  {/* Public Repos Count */}
-  <div className="flex items-center justify-center gap-2 bg-glass rounded-lg p-4 flex-1 min-w-[100px]">
-    <RiGitRepositoryFill className="w-5 h-5 text-blue-800" />
-    <p className="text-xs">Public repos: {user.public_repos}</p>
-  </div>
-
-  {/* Optional: Public Gists */}
-  {/* Uncomment the following if you want to display public gists */}
-  {/* 
-  <div className="flex items-center gap-2 bg-glass rounded-lg p-4 flex-1 min-w-[100px]">
-    <RiGitRepositoryFill className="w-5 h-5 text-blue-800" />
-    <p className="text-xs">Public gists: {user.public_gists}</p>
-  </div> 
-  */}
-</div>
-
+        {/* Public Repos Count */}
+        <div className="flex items-center justify-center gap-2 bg-glass rounded-lg p-4 flex-1 min-w-[100px]">
+          <RiGitRepositoryFill className="w-5 h-5 text-blue-800" />
+          <p className="text-xs">Public repos: {user.public_repos}</p>
+        </div>
+      </div>
     </div>
   );
 }

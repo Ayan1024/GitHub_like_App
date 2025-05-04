@@ -42,7 +42,7 @@ function Profileinfo({ userProfile }) {
     const memberSince = formatMemberSince(user.created_at);
 
   return (
-    <div className="lg:w-1/3 w-full flex flex-col gap-2 md:sticky md:top-10">
+    <div className="lg:w-1/3 w-full flex flex-col gap-2 lg:sticky md:top-10">
       <div className="bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-800 text-white rounded-lg p-4">
         <div className="flex gap-3 items-center">
           <a href={user.html_url} target="_blank" rel="noreferrer">

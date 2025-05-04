@@ -10,13 +10,20 @@ const HomePage = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [sortType, setsortType] = useState("forks");
+  const [sortType, setsortType] = useState([]);
 
   const getUserProfileAndRepos = useCallback( async (username="Ayan1024") => {
-    setLoading(true);
+    setLoading(true)
+    setRepos(repos);
+      onSort("recent")
     
+  
     try {
-      const userRes = await fetch(`https://api.github.com/users/${username}`);
+      const userRes = await fetch(`https://api.github.com/users/${username}`,{
+        headers: { 
+          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,}
+        },
+      );
       const userProfile = await userRes.json();
       setUserProfile(userProfile);
       if (userProfile.message === "Not Found") {

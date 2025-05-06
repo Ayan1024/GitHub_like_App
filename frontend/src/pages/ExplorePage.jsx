@@ -7,29 +7,28 @@ function ExplorePage() {
 	const [loading, setloading] = useState(false)
 	const [repos, setRepos] = useState([])
 	const [selectedLanguage, setSelectedLanguage] = useState('')
-
 	const exploreRepos = async (language) => {
-		setloading(true)
-		setRepos([])
-
+		setloading(true);
+		setRepos([]);
+	  
 		try {
-			const res = await fetch(
-				`https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc`, {
-					headers: {
-						Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-						Accept: 'application/vnd.github.v3+json',
-					},
-				}
-			)
-			const data = await res.json()
-			setRepos(data.items)
-		} catch (error) {
-			toast.error('Error fetching repositories')
+		  const res = await fetch(`http://localhost:3000/api/explore/repos/${language}`);
+		  
+		  const data = await res.json(); // This is the array of repos directly
+	  
+		  if (Array.isArray(data)) {
+			setRepos(data);
+		  } else {
+			toast.error('Unexpected data format');
+		  }
+	  
+		} catch  {
+		  toast.error('Error fetching repositories');
 		} finally {
-			setloading(false)
+		  setloading(false);
 		}
-	}
-
+	  };
+	  
 	const handleClick = (language) => {
 		setSelectedLanguage(language)
 		exploreRepos(language)

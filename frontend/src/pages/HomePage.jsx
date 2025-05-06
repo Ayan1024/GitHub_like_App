@@ -6,6 +6,7 @@ import Sortrepos from "../components/Sortrepos";
 import Spinner from "../components/Spinner";
 import { useState, useEffect, useCallback } from "react";
 
+
 const HomePage = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [repos, setRepos] = useState([]);
@@ -19,22 +20,12 @@ const HomePage = () => {
     
   
     try {
-      const userRes = await fetch(`https://api.github.com/users/${username}`,{
-        headers: { 
-          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,}
-        },
-      );
-      const userProfile = await userRes.json();
-      setUserProfile(userProfile);
-      if (userProfile.message === "Not Found") {
-        return { userProfile, repos: [] };
-      }
+      const res = await fetch (`http://localhost:3000/api/users/profile/${username}`);
+      const {repos, userProfile} = await res.json();
 
-      const reposRes = await fetch(userProfile.repos_url);
-      const repos = await reposRes.json();
+      setUserProfile(userProfile);
       setRepos(repos);
-	  console.log(repos);
-	  console.log(userProfile);
+	  
     return {userProfile, repos};
     } catch (error) {
       toast.error(error.message);
